@@ -33,6 +33,7 @@
               <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
               {% if current_user.is_authenticated %}
               <a class="nav-item nav-link" href="{{ url_for('main.view_apointment') }}">Apointments</a>
+              <a class="nav-item nav-link" href="{{ url_for('apointments.new_apointment') }}">New Apointment</a>
               {% endif %}
               <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
               <a class="nav-item nav-link" href="{{ url_for('main.contact') }}">Contact</a>
@@ -40,7 +41,7 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('apointments.new_apointment') }}">New Apointment</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Patient</a>                
                 <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
               {% else %}

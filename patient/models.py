@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
+    phone = db.Column(db.String(120), unique=True, nullable=False)
+    user_type = db.Column(db.String(20), unique=True, nullable=False)
     apointments = db.relationship('Apointment', backref='author', lazy=True)
 
     #fuction for reset code to reset password
@@ -35,7 +37,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-#post table model
+#Apointment table model
 class Apointment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -54,5 +56,23 @@ class Apointment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Apointment('{self.title}', '{self.date_posted}')"
+
+class record(db.Model):
+    patient_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    username = db.relationship('User', backref='User_username', lazy=True)
+    email = db.relationship('User', backref='User_email', lazy=True)
+    phone = db.relationship('User', backref='User_phone', lazy=True)
+    gender = db.Column(db.String(100), nullable=False)
+    dob = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    emergency_name = db.Column(db.String(100), nullable=False)
+    emergency_relationship = db.Column(db.String(255), nullable=False)
+    emergency_phone = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Patient('{self.name}', '{self.date_posted}')"
 
