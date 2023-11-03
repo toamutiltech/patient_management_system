@@ -93,7 +93,7 @@ a.article-title:hover {
     width: 100%;
     margin: 0;
     padding: 0;
-    background: linear-gradient(0deg, rgba(54, 37, 47, 0.53), rgba(54, 37, 47, 0.53)), url(../static/img/workspace.jpg);
+    background: linear-gradient(0deg, rgba(54, 37, 47, 0.53), rgba(54, 37, 47, 0.53)), url(../static/img/hospital.jpeg);
       background-repeat: no-repeat;
     background-size: cover;
     color: white;
@@ -109,6 +109,10 @@ a.article-title:hover {
 .col-md-4{
   float: left;
   padding: 10px;
+}
+.col-md-12{
+  color: white;  
+  font-weight: bolder;
 }
 .topbar{
   margin-top: 5rem;

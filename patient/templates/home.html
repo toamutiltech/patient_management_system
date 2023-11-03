@@ -7,7 +7,7 @@
     <div class="bannar">
   <div class="top">
     <center>
-      <h1 style="color: white;">Welcome to Patient Management System</h1>
+      <h1 style="color: white;">Welcome to Fine Health Patient Management System</h1>
       <h3 style="color: white;">Where Booking Appiontment is possible</h3>
       <a href="{{ url_for('main.about') }}" target="_blank"class="btn btn-primary me-md-2">More Details</a>
     </center>
@@ -32,39 +32,28 @@
 </form>
 </div>
 <div style=" clear: both;"></div>
-<div class="row">
-    {% for apointment in apointments.items %}
-    <div class="col-4">
-        <article class="media content-section" >
-          
-          <div class="media-body">
-            
-            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">{{ apointment.title }}</a></h2>
-            <img class="space-img" src="{{ url_for('static', filename='space_image/' + apointment.image) }}">
-            <p class="article-content">${{ apointment.price }}</p>
-            <p class="article-content">{{ apointment.location }}</p>
-            <p class="article-content">{{ apointment.country }}</p>
-            <p class="article-content">{{ apointment.description }}</p>
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + apointment.author.image_file) }}">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
-              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
-          
-        </article>
-      </div>
-    {% endfor %}
-    </div>
-    <div style=" clear: both;"></div>
-    {% for page_num in apointments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if apointments.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+ <div class="col-md-12">
+  <p>Fine Health is committed to delivering exceptional healthcare services through our advanced patient management system. <br>Our platform is tailored to optimize the patient experience, from simplified appointment scheduling to secure access to comprehensive medical records and seamless billing processes. <br>With a focus on promoting patient-centric care, we facilitate effective communication channels between healthcare providers and patients.</p>
+    <h2 style=" color: white; font-weight: bolder;">About Us</h2>
+
+<p>We are dedicated to providing comprehensive and efficient healthcare services through our state-of-the-art patient management system. <br>Our platform is designed to streamline the patient experience, from initial appointment scheduling to secure access to medical records and billing information. <br>With a focus on enhancing the quality of patient care, we aim to facilitate seamless communication between healthcare providers and patients.</p>
+
+<h2 style=" color: white; font-weight: bolder;">Our Mission:</h2>
+
+<p>Our mission is to prioritize patient well-being by offering a user-friendly interface that simplifies the management of medical information. <br>We strive to foster a collaborative environment between healthcare professionals and patients, ensuring a personalized and holistic approach to healthcare management. <br>By leveraging the latest technological advancements, we aim to revolutionize the way healthcare is delivered and accessed, ultimately contributing to improved patient outcomes and satisfaction.</p>
+  </div>
+
+  <h2 style=" color: white; font-weight: bolder;">Services We Offer:</h2>
+  <ul style="color: white; font-weight: bolder;">
+<li>Secure and centralized storage of patient records.</li>
+<li>Effortless appointment scheduling and management.</li>
+<li>Efficient communication channels between patients and healthcare providers.</li>
+<li>Streamlined billing and payment processing.</li>
+<li>Accessible medical history and treatment plans for both patients and healthcare professionals.</li>
+</ul>
+<p style="color: white;  font-weight: bolder;">
+  We look forward to serving you and ensuring a smooth and reliable healthcare experience.<br> Thank you for choosing our patient management system.
+</p>
+  </div>
+   
 {% endblock content %}

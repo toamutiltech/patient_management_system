@@ -10,10 +10,15 @@ it and redirect to home page when Home is click
 @main.route("/")
 @main.route("/home")
 def home():
-    page = request.args.get('page', 1, type=int)
-    apointments = Apointment.query.order_by(Apointment.date_posted.desc()).paginate(page=page, per_page=5)
-    return render_template('home.html', apointments=apointments)
+    #Route to redirect to Home page where introduction of the site is made
+    return render_template('home.html', title='Home')
 
+@main.route("/view_apointment")
+def view_apointment():
+	#Route to redirect to Apointment page where Apointment booked will apear
+	page = request.args.get('page', 1, type=int)
+	apointments = Apointment.query.order_by(Apointment.date_posted.desc()).paginate(page=page, per_page=5)
+	return render_template('view_apointment.html', apointments=apointments)
 
 @main.route("/about")
 def about():

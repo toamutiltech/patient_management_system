@@ -1,0 +1,70 @@
+<!--
+  The host page that loads all space apointmented from the database.
+-->
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-md-12" >
+    <div class="bannar">
+  <div class="top">
+    <center>
+      <h1 style="color: white;">Welcome to Patient Management System</h1>
+      <h3 style="color: white;">Where Booking Appiontment is possible</h3>
+      <a href="{{ url_for('main.about') }}" target="_blank"class="btn btn-primary me-md-2">More Details</a>
+    </center>
+  </div>
+</div>
+</div>
+
+  <div class="col-md-12" style=" color: white; text-align: center; font-weight: bolder;">
+    <h2 style=" color: white; font-weight: bolder;">BOOK YOUR NEXT APPOINTMENT WITH A DOCTOR?</h2>
+
+<p>We make booking your appiontment with a doctor quick and easy. Enquire today and you could be in with a doctor in the next few days.</p>
+  </div>
+  <div class="col-5 search" style="">
+    <form method="GET" action="/apointment/search">
+    <label for="country">Search for Doctors:</label>
+    <select id="country" name="country">
+        <option value="">Doctors</option>
+        
+        <!-- Add more country options here -->
+    </select>
+    <input type="submit" value="Search">
+</form>
+</div>
+<div style=" clear: both;"></div>
+<div class="row">
+    {% for apointment in apointments.items %}
+    <div class="col-4">
+        <article class="media content-section" >
+          
+          <div class="media-body">
+            
+            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">{{ apointment.title }}</a></h2>
+            <img class="space-img" src="{{ url_for('static', filename='space_image/' + apointment.image) }}">
+            <p class="article-content">${{ apointment.price }}</p>
+            <p class="article-content">{{ apointment.location }}</p>
+            <p class="article-content">{{ apointment.country }}</p>
+            <p class="article-content">{{ apointment.description }}</p>
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + apointment.author.image_file) }}">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
+              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+          
+        </article>
+      </div>
+    {% endfor %}
+    </div>
+    <div style=" clear: both;"></div>
+    {% for page_num in apointments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if apointments.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock content %}
