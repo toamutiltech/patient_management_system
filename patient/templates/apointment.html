@@ -4,31 +4,16 @@
 {% extends "layout.html" %}
 {% block content %}
   <article class="media content-section topbar">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + apointment.author.image_file) }}">
     <div class="media-body">
-      <div class="article-metadata">
-        <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
-        <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
-        {% if apointment.author == current_user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('apointments.update_apointment', apointment_id=apointment.id) }}">Update</a>
-            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-          </div>
-        {% endif %}
-      </div>
-      <h2 class="article-title">{{ apointment.title }}</h2>
-      <img class="space-img" src="{{ url_for('static', filename='space_image/' + apointment.image) }}">
-  <p class="article-content">Price: ${{ apointment.price}}</p>
-      <p class="article-content">Address: {{ apointment.location }}</p>
-      <p class="article-content">Location: {{ apointment.country }}</p>
-      <p class="article-content">Size: {{ apointment.size }}</p>
-      <p class="article-content">Type: {{ apointment.space_type }}</p>
-      <p class="article-content">Space Size: {{ apointment.accommodation_size }}</p>
-      <p class="article-content">Facilities: {{ apointment.facility }}</p>
-      <p class="article-content">Availability: {{ apointment.availability }}</p>
-      <p class="article-content">Description: {{ apointment.description }}</p>
-      <p class="article-content">Contact: {{ apointment.contact }}</p>
-    </div>
+            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
+            <p class="article-content">Doctor: {{ apointment.doctor }}</p>
+            <p class="article-content">Date: {{ apointment.date }}</p>
+            <p class="article-content">Time: {{ apointment.time }}</p>
+            <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
+              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
   </article>
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

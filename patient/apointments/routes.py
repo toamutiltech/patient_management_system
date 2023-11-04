@@ -14,9 +14,6 @@ apointments = Blueprint('apointments', __name__)
 def new_apointment():
     form = ApointmentForm()
     if form.validate_on_submit():
-        if form.image.data:
-            image_file = save_picture(form.image.data)
-            
         apointment = Apointment(title=form.title.data, description=form.description.data, size=form.size.data, location=form.location.data, country=form.country.data, image = image_file, price=form.price.data, space_type=form.space_type.data, availability=form.availability.data, facility=form.facility.data, contact=form.contact.data,  author=current_user)
         db.session.add(apointment)
         db.session.commit()

@@ -7,23 +7,13 @@ from patient.models import User
 
 #The form to post space to the database
 class ApointmentForm(FlaskForm):
-    choices = [('Nigeria', 'Nigeria'), ('Argentina', 'Argentina'), 
-    ('Algeria', 'Algeria'), ('Benin', 'Benin'),('Brazil', 'Brazil'), 
-    ('Cuba', 'Cuba'),('United States', 'United States'),('United Kingdom', 'United Kingdom'),
-    ('Togo', 'Togo'),('South Africa', 'South Africa'),('Portugal', 'Portugal')
-    ]
-    country = SelectField('Select a Country', choices=choices)
+    choices = [('Nike', 'Nike'), ('Mike', 'Mike'), 
+    ('David', 'David')]
+    doctor = SelectField('Select a Doctor', choices=choices)
     title = StringField('Title', validators=[DataRequired()])
-    image = FileField('Upload Picture', validators=[FileAllowed(['jpg', 'png'])])
-    size = StringField('Size', validators=[DataRequired()])
-    location = StringField('Location', validators=[DataRequired()])
-    price = StringField('Price', validators=[DataRequired()])
-    space_type = StringField('Space Type', validators=[DataRequired()])
-    availability = StringField('Availability', validators=[DataRequired()])
-    facility = TextAreaField('Facility', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
-    contact = TextAreaField('Contact', validators=[DataRequired()])
-    submit = SubmitField('Post')
+    reason = StringField('Reason for Visit', validators=[DataRequired()])
+    
+    submit = SubmitField('Schedule Appointment')
 
 #The form to Search space from the database
 class SearchForm(FlaskForm):

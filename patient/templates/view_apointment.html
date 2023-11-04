@@ -3,23 +3,11 @@
 -->
 {% extends "layout.html" %}
 {% block content %}
-<div class="col-md-12" >
-    <div class="bannar">
-  <div class="top">
-    <center>
-      <h1 style="color: white;">Welcome to Patient Management System</h1>
-      <h3 style="color: white;">Where Booking Appiontment is possible</h3>
-      <a href="{{ url_for('main.about') }}" target="_blank"class="btn btn-primary me-md-2">More Details</a>
-    </center>
-  </div>
+<div style=" clear: both;"></div>
+<div class="col-md-12 topbar text-muted" style="color: black;">
+  <div class="col-5" style="float: left; margin: 1%;">
+<a href="{{ url_for('apointments.new_apointment') }}" target="_blank"class="btn btn-primary me-md-2">New Apointment</a>
 </div>
-</div>
-
-  <div class="col-md-12" style=" color: white; text-align: center; font-weight: bolder;">
-    <h2 style=" color: white; font-weight: bolder;">BOOK YOUR NEXT APPOINTMENT WITH A DOCTOR?</h2>
-
-<p>We make booking your appiontment with a doctor quick and easy. Enquire today and you could be in with a doctor in the next few days.</p>
-  </div>
   <div class="col-5 search" style="">
     <form method="GET" action="/apointment/search">
     <label for="country">Search for Doctors:</label>
@@ -32,20 +20,16 @@
 </form>
 </div>
 <div style=" clear: both;"></div>
-<div class="row">
+<div class="row text-muted">
     {% for apointment in apointments.items %}
     <div class="col-4">
         <article class="media content-section" >
-          
           <div class="media-body">
-            
-            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">{{ apointment.title }}</a></h2>
-            <img class="space-img" src="{{ url_for('static', filename='space_image/' + apointment.image) }}">
-            <p class="article-content">${{ apointment.price }}</p>
-            <p class="article-content">{{ apointment.location }}</p>
-            <p class="article-content">{{ apointment.country }}</p>
-            <p class="article-content">{{ apointment.description }}</p>
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + apointment.author.image_file) }}">
+            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
+            <p class="article-content">Doctor: {{ apointment.doctor }}</p>
+            <p class="article-content">Date: {{ apointment.date }}</p>
+            <p class="article-content">Time: {{ apointment.time }}</p>
+            <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
               <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
