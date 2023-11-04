@@ -2,8 +2,9 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from patient import db, bcrypt
-from patient.models import User, Record
-from patient.patientrecords.forms import (PatientRecordForm, UpdatePatientRecordForm)
+from patient.models import User, Record, Medical
+from patient.patientrecords.forms import (PatientRecordForm, UpdatePatientRecordForm, MedicalRecordForm)
+import json
 
 patientrecords = Blueprint('patientrecords', __name__)
 
@@ -17,49 +18,84 @@ def update_patientrecord():
         db.session.add(record)
         db.session.commit()
         flash('You have updated your record!', 'success')
-        return redirect(url_for('main.home'))
+        return redirect(url_for('patientrecords.myrecord'))
     return render_template('patient_record.html', title='Update Patient Record',
                            form=form, legend='Update Patient Record')
 
 @patientrecords.route("/myrecord", methods=['GET', 'POST'])
 @login_required
 def myrecord():
-     user = User.query.filter_by(username=current_user.username).first_or_404()
-     patientrecords = Record.query.filter_by(user=user).all()
-     for record in patientrecords:
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    patientrecords = Record.query.filter_by(user=user).all()
+    if not patientrecords:  # Checking if patientrecords list is empty
+        return redirect(url_for('patientrecords.update_patientrecord'))
+    else:
         form = UpdatePatientRecordForm()
-        if form.validate_on_submit():
-            current_user.username = form.username.data
-            current_user.email = form.email.data
-            db.session.commit()
-            flash('Your account has been updated!', 'success')
-            return redirect(url_for('users.account'))
+        if request.method == 'POST':
+            for record in patientrecords:
+                record.patient_name = form.patient_name.data
+                record.address = form.address.data
+                record.emergency_name = form.emergency_name.data
+                record.emergency_relationship = form.emergency_relationship.data
+                record.emergency_phone = form.emergency_phone.data
+                try:
+                    db.session.add(record)  # Add the updated record to the session
+                    db.session.commit()  # Commit the changes
+                    flash('Your account has been updated!', 'success')
+                    return redirect(url_for('patientrecords.myrecord'))
+                except Exception as e:
+                    flash(f'An error occurred: {e}', 'error')
+                    db.session.rollback()  # Roll back changes if an error occurs
         else:
-            form.patient_name.data = record.patient_name
-            form.address.data = record.address
-            form.emergency_name.data = record.emergency_name
-            form.emergency_relationship.data = record.emergency_relationship
-            form.emergency_phone.data = record.emergency_phone
-        return render_template('myrecord.html', title='my Record', patientrecords=patientrecords,
-                            user=user, form=form)
+            for record in patientrecords:
+                form.patient_name.data = record.patient_name
+                form.address.data = record.address
+                form.emergency_name.data = record.emergency_name
+                form.emergency_relationship.data = record.emergency_relationship
+                form.emergency_phone.data = record.emergency_phone
+        return render_template('myrecord.html', title='My Record', patientrecords=patientrecords, user=user, form=form)
 
-#Route to edit space apointment by the ID
-"""@apointments.route("/patient_record/<int:patient_id>/update", methods=['GET', 'POST'])
+@patientrecords.route("/medicalrecord/new", methods=['GET', 'POST'])
 @login_required
-def update_patient_record(patient_id):
-    patient_record = Record.query.get_or_404(patient_id)
-    if apointment.author != current_user:
-        abort(403)
-    form = ApointmentForm()
-    if form.validate_on_submit():
-        apointment.title = form.title.data
-        apointment.content = form.content.data
-        db.session.commit()
-        flash('Your apointment has been updated!', 'success')
-        return redirect(url_for('apointments.apointment', apointment_id=apointment.id))
-    elif request.method == 'GET':
-        form.title.data = apointment.title
-        form.content.data = apointment.content
-    return render_template('create_apointment.html', title='Update Apointment',
-                           form=form, legend='Update Apointment')
-"""
+def new_medicalrecord():
+    form = MedicalRecordForm()
+    if form.validate_on_submit(): 
+        fever = request.form['fever']
+        headache = request.form['headache']
+        profuse_sweating = request.form['profuse_sweating']
+        nausea = request.form['nausea']
+        vomiting = request.form['vomiting']
+        diarrhoea = request.form['diarrhoea']
+        anaemia = request.form['anaemia']
+
+        symptoms = {}
+        symptoms['fever'] = request.form['fever']
+        symptoms['headache'] = request.form['headache']
+        symptoms['profuse_sweating'] = request.form['profuse_sweating']
+        symptoms['nausea'] = request.form['nausea']
+        symptoms['vomiting'] = request.form['vomiting']
+        symptoms['diarrhoea'] = request.form['diarrhoea']
+        symptoms['anaemia'] = request.form['anaemia']
+        symptoms_json = json.dumps(symptoms)
+
+        if fever == headache == profuse_sweating == nausea == vomiting == diarrhoea == anaemia == 'yes':
+            result = 'You have Malaria.'
+            med_condition = 'Malaria'
+            medical = Medical(allergies=form.allergies.data, symptoms=symptoms_json, med_condition=med_condition, med=current_user)
+            db.session.add(medical)
+            db.session.commit()
+        else:
+            result = 'You do not have Malaria.' 
+        flash('You have You have fill up a Medical Record!', 'success')
+        return redirect(url_for('patientrecords.new_medicalrecord', result=result))
+    return render_template('medicalrecord.html', title='Medical Record',
+                           form=form, legend='Medical Record')
+
+@patientrecords.route("/medicalrecords")
+@login_required
+def medicalrecord():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    medicals = Medical.query.filter_by(med=user).all()
+    for medical in medicals:
+        symptoms_dict = json.loads(medical.symptoms)
+    return render_template('medrecords.html', title='My Medical Records', medicals=medicals, symptoms=symptoms_dict, user=user)

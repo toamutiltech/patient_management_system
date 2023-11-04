@@ -140,3 +140,6 @@ a.article-title:hover {
   background-color: white;
   margin: 1%;
 }
+.without-dot {
+    list-style-type: none;
+}

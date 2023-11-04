@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     apointments = db.relationship('Apointment', backref='author', lazy=True)
     patientrecords = db.relationship('Record', backref='record', lazy=True)
     records = db.relationship('Record', backref='user', lazy='dynamic')
+    medicals = db.relationship('Medical', backref='med', lazy=True)
 
 
     #fuction for reset code to reset password
@@ -44,18 +45,10 @@ class User(db.Model, UserMixin):
 class Apointment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    location = db.Column(db.String(255), nullable=False)
-    country = db.Column(db.String(255), nullable=False)
-    size = db.Column(db.String(100), nullable=False)
-    space_type = db.Column(db.String(255), nullable=False)
-    accommodation_size = db.Column(db.String(100), nullable=False)
-    facility = db.Column(db.Text, nullable=False)
-    price = db.Column(db.String(100), nullable=False)
-    contact = db.Column(db.Text, nullable=False)
-    availability = db.Column(db.String(255), nullable=False)
-    image = db.Column(db.String(100), nullable=False, default='default.jpg')
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    description = db.Column(db.Text, nullable=False)
+    doctor = db.Column(db.String(255), nullable=False)
+    time = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.String(100), nullable=False)
+    reason = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -75,4 +68,18 @@ class Record(db.Model):
 
     def __repr__(self):
         return f"Patient('{self.name}', '{self.date_posted}')"
+
+class Medical(db.Model):
+    med_id = db.Column(db.Integer, primary_key=True)
+    allergies = db.Column(db.String(100), nullable=False)
+    med_condition = db.Column(db.String(100), nullable=False)
+    medication = db.Column(db.String(255), nullable=False)
+    symptoms = db.Column(db.String(1000), nullable=False)
+    surgerie = db.Column(db.String(255), nullable=False)
+    doctor = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Medical('{self.name}', '{self.date_posted}')"
 

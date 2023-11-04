@@ -3,12 +3,11 @@
 -->
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section topbar">
-        <h2><a class="article-title" href="">{{ user.username }}</a></h2>
-        <form method="POST" action="">
+    <div class="content-section topbar">      
+        <form method="POST" action="{{ url_for('patientrecords.myrecord') }}">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Update Your Record</legend>
+                <legend class="border-bottom mb-4">Update My Info</legend>
                 <div class="form-group">
                     {{ form.patient_name.label(class="form-control-label") }}
 

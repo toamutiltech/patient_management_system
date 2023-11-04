@@ -1,0 +1,131 @@
+<!--
+    A page that contained Registration form
+-->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section topbar">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Having an illnes Fill Medical Record to book an Apointment</legend> 
+                <div class="form-group">
+                    {{ form.allergies.label(class="form-control-label") }}
+
+                    {% if form.allergies.errors %}
+                        {{ form.allergies(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.allergies.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.allergies(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.fever.label(class="form-control-label") }}
+
+                    {% if form.fever.errors %}
+                        {{ form.fever(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.fever.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.fever(class="form-check without-dot") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.headache.label(class="form-control-label") }}
+
+                    {% if form.headache.errors %}
+                        {{ form.headache(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.headache.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.headache(class="form-check without-dot") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.profuse_sweating.label(class="form-control-label") }}
+
+                    {% if form.profuse_sweating.errors %}
+                        {{ form.profuse_sweating(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.profuse_sweating.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.profuse_sweating(class="form-check without-dot") }}
+                    {% endif %}
+                </div>
+                  <div class="form-group">
+                    {{ form.nausea.label(class="form-control-label") }}
+
+                    {% if form.nausea.errors %}
+                        {{ form.nausea(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.nausea.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.nausea(class="form-check without-dot") }}
+                    {% endif %}
+                </div>
+                  <div class="form-group">
+                    {{ form.vomiting.label(class="form-control-label") }}
+
+                    {% if form.vomiting.errors %}
+                        {{ form.vomiting(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.vomiting.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.vomiting(class="form-check without-dot") }}
+                    {% endif %}
+                </div>    
+                <div class="form-group">
+                    {{ form.diarrhoea.label(class="form-control-label") }}
+
+                    {% if form.diarrhoea.errors %}
+                        {{ form.diarrhoea(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.diarrhoea.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.diarrhoea(class="form-check without-dot") }}
+                    {% endif %}
+                </div>   
+                <div class="form-group">
+                    {{ form.anaemia.label(class="form-control-label") }}
+
+                    {% if form.anaemia.errors %}
+                        {{ form.anaemia(class="form-check without-dot is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.anaemia.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.anaemia(class="form-check without-dot") }}
+                    {% endif %}
+                </div>                 
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+        
+    </div>
+    
+{% endblock content %}
