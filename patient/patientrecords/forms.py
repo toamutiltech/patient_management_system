@@ -49,5 +49,23 @@ class MedicalRecordForm(FlaskForm):
     vomiting = RadioField('Are you vomiting', choices=[('yes', 'I Am'), ('no', 'I Am Not')], validators=[DataRequired()])
     diarrhoea = RadioField('Do you Have diarrhoea ( Having loose, watery stools and stomach pain.)', choices=[('yes', 'I have'), ('no', 'I do not have')], validators=[DataRequired()])
     anaemia = RadioField('Do you Have anaemia (A lack of red blood cells Symptoms may include fatigue, skin pallor, shortness of breath, light-headedness, dizziness or a fast heartbeat.)', choices=[('yes', 'I have'), ('no', 'I do not have')], validators=[DataRequired()])
-    submit = SubmitField('Submit Medical Record')
+    submit = SubmitField('Submit Test Questions')
+
+class HealthRecordForm(FlaskForm):
+    worker_name = StringField('Full Name',
+                           validators=[DataRequired(), Length(min=2, max=100)])
+    gchoices = [('male', 'Male'), ('female', 'Female')]
+    gender = SelectField('Select your Gender Type', choices=gchoices)
+    dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
+    address = StringField('Full Address',
+                           validators=[DataRequired()])
+    submit = SubmitField('Update Your Record')
+
+
+class UpdateHealthRecordForm(FlaskForm):
+    worker_name = StringField('Full Name',
+                           validators=[DataRequired(), Length(min=2, max=100)])
+    address = StringField('Full Address',
+                           validators=[DataRequired()])
+    submit = SubmitField('Update')
 

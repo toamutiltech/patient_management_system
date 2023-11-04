@@ -1,0 +1,54 @@
+<!--
+  The host page that loads all space apointmented from the database.
+-->
+{% extends "worker_layout.html" %}
+{% block content %}
+<div style=" clear: both;"></div>
+<div class="col-md-12 topbar text-muted" style="color: black;">
+  <div class="col-5" style="float: left; margin: 1%;">
+<a href="{{ url_for('apointments.new_apointment') }}" target="_blank"class="btn btn-primary me-md-2">New Apointment</a>
+</div>
+  <div class="col-5 search" style="">
+    <form method="GET" action="/apointment/search">
+    <label for="country">Search for Doctors:</label>
+    <select id="country" name="country">
+        <option value="">Doctors</option>
+        
+        <!-- Add more country options here -->
+    </select>
+    <input type="submit" value="Search">
+</form>
+</div>
+<div style=" clear: both;"></div>
+<div class="row text-muted">
+    {% for apointment in apointments.items %}
+    <div class="col-4">
+        <article class="media content-section" >
+          <div class="media-body">
+            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
+            <p class="article-content">Doctor: {{ apointment.doctor }}</p>
+            <p class="article-content">Date: {{ apointment.date }}</p>
+            <p class="article-content">Time: {{ apointment.time }}</p>
+            <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
+              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+          
+        </article>
+      </div>
+    {% endfor %}
+    </div>
+    <div style=" clear: both;"></div>
+    {% for page_num in apointments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if apointments.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+{% endblock content %}

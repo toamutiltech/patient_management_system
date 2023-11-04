@@ -1,6 +1,6 @@
 from flask import render_template, request, Blueprint
 from patient.models import Apointment
-from patient.models import Record
+from patient.models import User, Record, Medical, Health
 
 main = Blueprint('main', __name__)
 """

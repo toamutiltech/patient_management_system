@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import current_app
 from patient import db, login_manager
 from flask_login import UserMixin
-
+ 
 #fuction to load a login user
 @login_manager.user_loader
 def load_user(user_id):
@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     patientrecords = db.relationship('Record', backref='record', lazy=True)
     records = db.relationship('Record', backref='user', lazy='dynamic')
     medicals = db.relationship('Medical', backref='med', lazy=True)
+    healths = db.relationship('Health', backref='worker', lazy=True)
 
 
     #fuction for reset code to reset password
@@ -84,3 +85,14 @@ class Medical(db.Model):
     def __repr__(self):
         return f"Medical('{self.name}', '{self.date_posted}')"
 
+class Health(db.Model):
+    worker_id = db.Column(db.Integer, primary_key=True)
+    worker_name = db.Column(db.String(100), nullable=False)
+    gender = db.Column(db.String(100), nullable=False)
+    dob = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Health('{self.name}', '{self.date_posted}')"

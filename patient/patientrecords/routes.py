@@ -85,9 +85,11 @@ def new_medicalrecord():
             db.session.add(medical)
             db.session.commit()
         else:
-            result = 'You do not have Malaria.' 
+            result = 'You do not have any Illness.' 
+            return render_template('medicalrecord.html', title='Medical Record',
+                           form=form, result=result, legend='Medical Record')
         flash('You have You have fill up a Medical Record!', 'success')
-        return redirect(url_for('patientrecords.new_medicalrecord', result=result))
+        return redirect(url_for('patientrecords.medicalrecord'))
     return render_template('medicalrecord.html', title='Medical Record',
                            form=form, legend='Medical Record')
 
@@ -96,6 +98,8 @@ def new_medicalrecord():
 def medicalrecord():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     medicals = Medical.query.filter_by(med=user).all()
+    symptoms_dict = {}
     for medical in medicals:
-        symptoms_dict = json.loads(medical.symptoms)
+        if medical.symptoms:
+            symptoms_dict = json.loads(medical.symptoms)
     return render_template('medrecords.html', title='My Medical Records', medicals=medicals, symptoms=symptoms_dict, user=user)

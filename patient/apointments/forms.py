@@ -12,14 +12,11 @@ class ApointmentForm(FlaskForm):
     doctor = SelectField('Select a Doctor', choices=choices)
     title = StringField('Title', validators=[DataRequired()])
     reason = StringField('Reason for Visit', validators=[DataRequired()])
-    
     submit = SubmitField('Schedule Appointment')
 
 #The form to Search space from the database
 class SearchForm(FlaskForm):
-    choices = [('Nigeria', 'Nigeria'), ('Argentina', 'Argentina'), 
-    ('Algeria', 'Algeria'), ('Benin', 'Benin'),('Brazil', 'Brazil'), 
-    ('Cuba', 'Cuba'),('United States', 'United States'),('United Kingdom', 'United Kingdom'),
-    ('Togo', 'Togo'),('South Africa', 'South Africa'),('Portugal', 'Portugal')]
-    country = SelectField('Select a Country', choices=choices)
-    submit = SubmitField('Post')
+    choices = [('Nike', 'Nike'), ('Mike', 'Mike'), 
+    ('David', 'David')]
+    doctor = SelectField('Select a Doctor', choices=choices)
+    submit = SubmitField('Search')

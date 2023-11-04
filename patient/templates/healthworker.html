@@ -1,0 +1,48 @@
+<!--
+    A page that contained Registration form
+-->
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section topbar">      
+        <form method="POST" action="{{ url_for('patientrecords.myrecord') }}">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Update My Info</legend>
+                <div class="form-group">
+                    {{ form.worker_name.label(class="form-control-label") }}
+
+                    {% if form.worker_name.errors %}
+                        {{ form.worker_name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.worker_name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.worker_name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.address.label(class="form-control-label") }}
+
+                    {% if form.address.errors %}
+                        {{ form.address(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.address.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.address(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                                
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+        
+    </div>
+    
+{% endblock content %}
