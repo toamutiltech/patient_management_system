@@ -18,6 +18,9 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(120), unique=True, nullable=False)
     user_type = db.Column(db.String(20), unique=True, nullable=False)
     apointments = db.relationship('Apointment', backref='author', lazy=True)
+    patientrecords = db.relationship('Record', backref='record', lazy=True)
+    records = db.relationship('Record', backref='user', lazy='dynamic')
+
 
     #fuction for reset code to reset password
     def get_reset_token(self, expires_sec=1800):
@@ -58,12 +61,9 @@ class Apointment(db.Model):
     def __repr__(self):
         return f"Apointment('{self.title}', '{self.date_posted}')"
 
-class record(db.Model):
+class Record(db.Model):
     patient_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
-    username = db.relationship('User', backref='User_username', lazy=True)
-    email = db.relationship('User', backref='User_email', lazy=True)
-    phone = db.relationship('User', backref='User_phone', lazy=True)
+    patient_name = db.Column(db.String(100), nullable=False)
     gender = db.Column(db.String(100), nullable=False)
     dob = db.Column(db.String(255), nullable=False)
     address = db.Column(db.String(255), nullable=False)

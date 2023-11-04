@@ -29,10 +29,12 @@ def create_app(config_class=Config):
     from patient.users.routes import users
     from patient.apointments.routes import apointments
     from patient.main.routes import main
+    from patient.patientrecords.routes import patientrecords
     from patient.errors.handlers import errors
     app.register_blueprint(users)
     app.register_blueprint(apointments)
     app.register_blueprint(main)
+    app.register_blueprint(patientrecords)
     app.register_blueprint(errors)
 
     return app
