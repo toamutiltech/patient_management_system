@@ -5,6 +5,9 @@
 {% block content %}
 <div style=" clear: both;"></div>
 <div class="col-md-12 topbar text-muted" style="color: black;">
+  <div class="col-5" style="float: left; margin: 1%;">
+<a href="{{ url_for('main.myapointment') }}" class="btn btn-primary me-md-2">My Apointment</a>
+</div>
 <div style=" clear: both;"></div>
 <div class="row text-muted">
     {% for apointment in apointments.items %}

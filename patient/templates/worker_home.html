@@ -5,40 +5,57 @@
 {% block content %}
 <div style=" clear: both;"></div>
 <div class="col-md-12 topbar text-muted" style="color: black;">
-  <div class="col-5" style="float: left; margin: 1%;">
-<a href="{{ url_for('main.myapointment') }}" class="btn btn-primary me-md-2">My Apointment</a>
-</div>
+<h2 class="text-light">Statistical Details</h2>
+<table class="table table-dark">
+  <thead class="thead-light">
+        <tr>
+            <th>Medical Condition</th>
+            <th>Count</th>
+        </tr>
+  </thead>
+  <tbody>
+        {% for detail in statistical_details %}
+            <tr>
+                <td>{{ detail.med_condition }}</td>
+                <td>{{ detail.count }}</td>
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+<div class="col-5" style=" background: white;">
+ <canvas id="myChart" width="400" height="400" ></canvas>
 
-<div style=" clear: both;"></div>
-<div class="row text-muted">
-    {% for apointment in apointments.items %}
-    <div class="col-4">
-        <article class="media content-section" >
-          <div class="media-body">
-            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
-            <p class="article-content">Doctor: {{ apointment.doctor }}</p>
-            <p class="article-content">Date: {{ apointment.date }}</p>
-            <p class="article-content">Time: {{ apointment.time }}</p>
-            <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
-              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
-          
-        </article>
-      </div>
-    {% endfor %}
-    </div>
-    <div style=" clear: both;"></div>
-    {% for page_num in apointments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if apointments.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.worker', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.worker', page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var statisticalDetails = {{ statistical_details | tojson }};
+
+        var labels = statisticalDetails.map(function(item) {
+            return item.med_condition;
+        });
+        var data = statisticalDetails.map(function(item) {
+            return item.count;
+        });
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Count of Medical Conditions',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+  </div>
 {% endblock content %}

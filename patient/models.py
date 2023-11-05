@@ -67,9 +67,10 @@ class Record(db.Model):
     emergency_phone = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    all_records = db.relationship('Medical', backref='record', lazy=True)
 
     def __repr__(self):
-        return f"Patient('{self.name}', '{self.date_posted}')"
+        return f"Record('{self.patient_name}', '{self.date_posted}')"
 
 class Medical(db.Model):
     med_id = db.Column(db.Integer, primary_key=True)
@@ -81,9 +82,10 @@ class Medical(db.Model):
     doctor = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    record_id = db.Column(db.Integer, db.ForeignKey('record.user_id'), nullable=False)
 
     def __repr__(self):
-        return f"Medical('{self.name}', '{self.date_posted}')"
+        return f"Medical('{self.med_condition}', '{self.date_posted}')"
 
 class Health(db.Model):
     worker_id = db.Column(db.Integer, primary_key=True)

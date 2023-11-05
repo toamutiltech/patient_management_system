@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from patient.config import Config
+from sqlalchemy import func
 
  
 db = SQLAlchemy()

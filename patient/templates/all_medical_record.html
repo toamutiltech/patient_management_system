@@ -25,7 +25,7 @@
                 </ul>
             </p>
             <div class="article-metadata">
-              <a class="mr-2" >{{ medical.med.username }}</a>
+              <a class="mr-2" >{{ medical.record.patient_name }}</a>
               <small class="text-muted">{{ medical.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
           
@@ -33,5 +33,17 @@
       </div>
     {% endfor %}
     </div>
+    <div style=" clear: both;"></div>
+    {% for page_num in medicals.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if medicals.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('patientrecords.allmedicalrecord', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('patientrecords.allmedicalrecord', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
     </div>
 {% endblock content %}

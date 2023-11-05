@@ -6,6 +6,7 @@ from patient.models import User, Record, Medical
 from patient.patientrecords.forms import (PatientRecordForm, UpdatePatientRecordForm, MedicalRecordForm)
 import json
 
+
 patientrecords = Blueprint('patientrecords', __name__)
 
 # Route to submit the Patient Record form and redirect back to Patient Record
@@ -81,9 +82,16 @@ def new_medicalrecord():
         if fever == headache == profuse_sweating == nausea == vomiting == diarrhoea == anaemia == 'yes':
             result = 'You have Malaria.'
             med_condition = 'Malaria'
-            medical = Medical(allergies=form.allergies.data, symptoms=symptoms_json, med_condition=med_condition, med=current_user)
+            medical = Medical(
+            allergies=form.allergies.data,
+            symptoms=symptoms_json,
+            med_condition=med_condition,
+            user_id=current_user.id,  # Replace with the appropriate value
+            record_id=current_user.id  # Replace with the appropriate value
+            )
+
             db.session.add(medical)
-            db.session.commit()
+            db.session.commit()           
         else:
             result = 'You do not have any Illness.' 
             return render_template('medicalrecord.html', title='Medical Record',
@@ -115,3 +123,20 @@ def allmedicalrecord():
         if medical.symptoms:
             symptoms_dict = json.loads(medical.symptoms)
     return render_template('all_medical_record.html', medicals=medicals, symptoms=symptoms_dict)
+
+@patientrecords.route("/userrecords")
+@login_required
+def userrecords():
+    page = request.args.get('page', 1, type=int)
+    medicals = Medical.query.order_by(Medical.date_posted.desc()).paginate(page=page, per_page=5)
+    return render_template('users_records.html', medicals=medicals)
+
+@patientrecords.route("/record/<string:med_id>")
+def user_record(med_id):
+    medicals = Medical.query.filter_by(med_id=med_id)
+    symptoms_dict = {}
+    for medical in medicals:
+        if medical.symptoms:
+            symptoms_dict = json.loads(medical.symptoms)
+    return render_template('view_record.html', medicals=medicals, symptoms=symptoms_dict)
+

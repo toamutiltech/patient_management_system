@@ -1,0 +1,43 @@
+<!--
+  The host page that loads all space apointmented from the database.
+-->
+{% extends "worker_layout.html" %}
+{% block content %}
+
+<div style=" clear: both;"></div>
+<div class="col-md-12 topbar text-muted" style="color: black;">
+  <div style=" clear: both;"></div>
+<div class="row">
+ {% for medical in medicals: %}
+    <div class="col-8">
+        <article class="media content-section" >
+          
+          <div class="media-body">
+            <h2><a class="article-title" >{{ medical.record.patient_name }} Record</a></h2>
+            <p class="article-content">Allergie to {{ medical.allergies }}</p>
+            <p class="article-content">Condition: {{ medical.med_condition }}</p>
+            <p class="article-content">Medication: {{ medical.medication }}</p>
+            <p class="article-content">Symptoms: 
+               <ul>
+                {% for key, value in symptoms.items() %}
+                    <li>{{ key }}: {{ value }}</li>
+                {% endfor %}
+                </ul>
+            </p>
+            <center><h4>Patient Infomation</h4></center>
+            <p class="article-content">Gender: {{ medical.record.gender }}</p>
+            <p class="article-content">Date of Birth: {{ medical.record.dob }}</p>
+            <p class="article-content">Phone Number: {{ medical.med.phone }}</p>
+            <p class="article-content">Email Address: {{ medical.med.email }}</p>
+            <p class="article-content">Address: {{ medical.record.address }}</p>
+            <center><h4>Emergency Contact Infomation</h4></center>
+            <p class="article-content">Contact Name: {{ medical.record.emergency_name }}</p>
+            <p class="article-content">Contact Phone Number: {{ medical.record.emergency_phone }}</p>
+            <p class="article-content">Contact Relationship: {{ medical.record.emergency_relationship }}</p>
+          
+        </article>
+      </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock content %}

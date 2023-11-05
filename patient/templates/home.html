@@ -15,45 +15,72 @@
 </div>
 </div>
 
-  <div class="col-md-12" style=" color: white; text-align: center; font-weight: bolder;">
-    <h2 style=" color: white; font-weight: bolder;">BOOK YOUR NEXT APPOINTMENT WITH A DOCTOR?</h2>
 
-<p>We make booking your appiontment with a doctor quick and easy. Enquire today and you could be in with a doctor in the next few days.</p>
-  </div>
-  <div class="col-5 search" style="">
-    <form method="GET" action="/apointment/search">
-    <label for="country">Search for Doctors:</label>
-    <select id="country" name="country">
-        <option value="">Doctors</option>
-        
-        <!-- Add more country options here -->
-    </select>
-    <input type="submit" value="Search">
-</form>
-</div>
 <div style=" clear: both;"></div>
  <div class="col-md-12">
   <p>Fine Health is committed to delivering exceptional healthcare services through our advanced patient management system. <br>Our platform is tailored to optimize the patient experience, from simplified appointment scheduling to secure access to comprehensive medical records and seamless billing processes. <br>With a focus on promoting patient-centric care, we facilitate effective communication channels between healthcare providers and patients.</p>
-    <h2 style=" color: white; font-weight: bolder;">About Us</h2>
+  <h2 class="text-light">Statistical Details</h2>
+<table class="table table-dark">
+  <thead class="thead-light">
+        <tr>
+            <th>Medical Condition</th>
+            <th>Count</th>
+        </tr>
+  </thead>
+  <tbody>
+        {% for detail in statistical_details %}
+            <tr>
+                <td>{{ detail.med_condition }}</td>
+                <td>{{ detail.count }}</td>
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+<div class="col-5" style=" background: white;">
+ <canvas id="myChart" width="400" height="400" ></canvas>
 
-<p>We are dedicated to providing comprehensive and efficient healthcare services through our state-of-the-art patient management system. <br>Our platform is designed to streamline the patient experience, from initial appointment scheduling to secure access to medical records and billing information. <br>With a focus on enhancing the quality of patient care, we aim to facilitate seamless communication between healthcare providers and patients.</p>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var statisticalDetails = {{ statistical_details | tojson }};
 
-<h2 style=" color: white; font-weight: bolder;">Our Mission:</h2>
+        var labels = statisticalDetails.map(function(item) {
+            return item.med_condition;
+        });
+        var data = statisticalDetails.map(function(item) {
+            return item.count;
+        });
 
-<p>Our mission is to prioritize patient well-being by offering a user-friendly interface that simplifies the management of medical information. <br>We strive to foster a collaborative environment between healthcare professionals and patients, ensuring a personalized and holistic approach to healthcare management. <br>By leveraging the latest technological advancements, we aim to revolutionize the way healthcare is delivered and accessed, ultimately contributing to improved patient outcomes and satisfaction.</p>
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Count of Medical Conditions',
+                    data: data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
   </div>
+  <div style=" clear: both;"></div>
+  <br>
+      <div class="col-md-12" style=" color: white; ">
+    <h2 style=" color: white; ">BOOK YOUR NEXT APPOINTMENT WITH A DOCTOR?</h2>
 
-  <h2 style=" color: white; font-weight: bolder;">Services We Offer:</h2>
-  <ul style="color: white; font-weight: bolder;">
-<li>Secure and centralized storage of patient records.</li>
-<li>Effortless appointment scheduling and management.</li>
-<li>Efficient communication channels between patients and healthcare providers.</li>
-<li>Streamlined billing and payment processing.</li>
-<li>Accessible medical history and treatment plans for both patients and healthcare professionals.</li>
-</ul>
-<p style="color: white;  font-weight: bolder;">
-  We look forward to serving you and ensuring a smooth and reliable healthcare experience.<br> Thank you for choosing our patient management system.
+<p>We make booking your appiontment with a doctor quick and easy. Enquire today and you could be in with a doctor in the next few days.<br>
+We look forward to serving you and ensuring a smooth and reliable healthcare experience. Thank you for choosing our patient management system.
 </p>
+  </div>
   </div>
    
 {% endblock content %}
