@@ -20,3 +20,4 @@ class SearchForm(FlaskForm):
     ('David', 'David')]
     doctor = SelectField('Select a Doctor', choices=choices)
     submit = SubmitField('Search')
+    

@@ -5,23 +5,20 @@
 {% block content %}
 <div style=" clear: both;"></div>
 <div class="col-md-12 topbar text-muted" style="color: black;">
-  <div class="col-5" style="float: left; margin: 1%;">
-<a href="{{ url_for('main.myapointment') }}" class="btn btn-primary me-md-2">My Apointment</a>
-</div>
 <div style=" clear: both;"></div>
 <div class="row text-muted">
     {% for apointment in apointments.items %}
     <div class="col-4">
         <article class="media content-section" >
           <div class="media-body">
-            <h2><a class="article-title" href="{{ url_for('apointments.apointment', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
+            <h2><a class="article-title" href="{{ url_for('apointments.status', apointment_id=apointment.id) }}">Apointment: {{ apointment.title }}</a></h2>
             <p class="article-content">Doctor: {{ apointment.doctor }}</p>
             <p class="article-content">Date: {{ apointment.date }}</p>
             <p class="article-content">Time: {{ apointment.time }}</p>
             <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
+            <p class="article-content">Date Created: {{ apointment.date_posted.strftime('%Y-%m-%d') }}</p>
             <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
-              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
+              <a href="{{ url_for('apointments.status', apointment_id=apointment.id) }}" class="btn btn-primary me-md-2">View Apointment</a>
             </div>
           
         </article>

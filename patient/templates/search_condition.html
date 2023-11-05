@@ -33,7 +33,7 @@
             <p class="article-content">Condition: {{ medical.med_condition }}</p>
             <p class="article-content">Medication: {{ medical.medication }}</p>
             <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('patientrecords.user_record', med_id=medical.med_id) }}" >More Info</a>
+              <a class="mr-2 btn btn-info mb-4" href="{{ url_for('patientrecords.user_record', med_id=medical.med_id) }}" >More Info</a>
               <small class="text-muted">{{ medical.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
           

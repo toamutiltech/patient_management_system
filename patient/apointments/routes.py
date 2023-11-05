@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from patient import db, bcrypt
-from patient.models import User, Apointment
+from patient.models import User, Apointment, Record, Medical, Health
 from patient.apointments.forms import ApointmentForm
 from patient.apointments.utils import save_picture
 
@@ -12,21 +12,27 @@ apointments = Blueprint('apointments', __name__)
 @apointments.route("/apointment/new", methods=['GET', 'POST'])
 @login_required
 def new_apointment():
+    doctors = Health.query.with_entities(Health.worker_name).all()
     form = ApointmentForm()
-    if form.validate_on_submit():
+    if request.method == 'POST':
         apointment = Apointment(title=form.title.data, doctor=form.doctor.data, reason=form.reason.data, author=current_user)
         db.session.add(apointment)
-        db.session.commit()
+        db.session.commit()       
         flash('Your apointment has been created!', 'success')
         return redirect(url_for('main.view_apointment'))
     return render_template('create_apointment.html', title='New Apointment',
-                           form=form, legend='New Apointment')
+                           form=form, legend='New Apointment', doctors=doctors)
 
 #Route to view space apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>")
 def apointment(apointment_id):
     apointment = Apointment.query.get_or_404(apointment_id)
     return render_template('apointment.html', title=apointment.title, apointment=apointment)
+
+@apointments.route("/apointmentstatus/<int:apointment_id>")
+def status(apointment_id):
+    apointment = Apointment.query.get_or_404(apointment_id)
+    return render_template('apointment_status.html', title=apointment.title, apointment=apointment)
 
 #Route to edit space apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>/update", methods=['GET', 'POST'])
@@ -63,10 +69,10 @@ def delete_apointment(apointment_id):
 #Route to delete space apointment by the ID
 @apointments.route('/apointment/search', methods=['GET'])
 def search():
-    selected_country = request.args.get('country')
-    if selected_country:
-        apointments = Apointment.query.filter_by(country=selected_country).all()
+    selected_doctor = request.args.get('doctor')
+    if selected_doctor:
+        doctors = selected_doctor
     else:
-        apointments = []
-    return render_template('search_results.html', apointments=apointments)
+        doctors = []
+    return render_template('search_results.html', doctors=doctors)
 

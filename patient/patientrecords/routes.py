@@ -104,8 +104,9 @@ def new_medicalrecord():
 @patientrecords.route("/medicalrecords")
 @login_required
 def medicalrecord():
+    page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=current_user.username).first_or_404()
-    medicals = Medical.query.filter_by(med=user).all()
+    medicals = Medical.query.filter_by(med=user).order_by(Medical.date_posted.desc()).paginate(page=page, per_page=3)
     symptoms_dict = {}
     for medical in medicals:
         if medical.symptoms:
