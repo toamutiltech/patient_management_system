@@ -69,3 +69,8 @@ class UpdateHealthRecordForm(FlaskForm):
                            validators=[DataRequired()])
     submit = SubmitField('Update')
 
+class SearchHealthForm(FlaskForm):
+    choices = [('Nike', 'Nike'), ('Mike', 'Mike'), 
+    ('David', 'David')]
+    doctor = SelectField('Select a Doctor', choices=choices)
+    submit = SubmitField('Search Medical Condition')

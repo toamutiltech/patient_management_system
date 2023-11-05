@@ -118,11 +118,12 @@ def medicalrecord():
 def allmedicalrecord():
     page = request.args.get('page', 1, type=int)
     medicals = Medical.query.order_by(Medical.date_posted.desc()).paginate(page=page, per_page=12)
+    distinct_conditions = db.session.query(Medical.med_condition).distinct().all()
     symptoms_dict = {}
     for medical in medicals:
         if medical.symptoms:
             symptoms_dict = json.loads(medical.symptoms)
-    return render_template('all_medical_record.html', medicals=medicals, symptoms=symptoms_dict)
+    return render_template('all_medical_record.html', medicals=medicals, symptoms=symptoms_dict, distinct_conditions=distinct_conditions)
 
 @patientrecords.route("/userrecords")
 @login_required
@@ -140,3 +141,14 @@ def user_record(med_id):
             symptoms_dict = json.loads(medical.symptoms)
     return render_template('view_record.html', medicals=medicals, symptoms=symptoms_dict)
 
+#Route 
+@patientrecords.route('/medical/search', methods=['GET'])
+def medsearch():
+    page = request.args.get('page', 1, type=int)
+    distinct_conditions = db.session.query(Medical.med_condition).distinct().all()
+    selected_illness = request.args.get('med_condition')
+    if selected_illness:
+        medicals = Medical.query.filter_by(med_condition=selected_illness).order_by(Medical.date_posted.desc()).paginate(page=page, per_page=6)
+    else:
+        medicals = []
+    return render_template('search_condition.html', medicals=medicals, distinct_conditions=distinct_conditions)

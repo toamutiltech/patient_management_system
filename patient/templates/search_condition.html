@@ -6,7 +6,7 @@
 
 <div style=" clear: both;"></div>
 <div class="col-md-12 topbar text-muted" style="color: black;">
-    <div class="col-5 search" style="">
+      <div class="col-5 search" style="">
     <form method="GET" action="{{ url_for('patientrecords.medsearch') }}">
       <div class="form-group">
     <label for="med_condition" class="form-control-label">Search Users Medical Record:</label>
@@ -28,19 +28,12 @@
         <article class="media content-section" >
           
           <div class="media-body">
-            <h2><a class="article-title" >{{ medical.med_condition }}</a></h2>
+            <h2><a class="article-title" >{{ medical.record.patient_name }}</a></h2>
             <p class="article-content">Allergie to {{ medical.allergies }}</p>
             <p class="article-content">Condition: {{ medical.med_condition }}</p>
             <p class="article-content">Medication: {{ medical.medication }}</p>
-            <p class="article-content">Symptoms: 
-               <ul>
-                {% for key, value in symptoms.items() %}
-                    <li>{{ key }}: {{ value }}</li>
-                {% endfor %}
-                </ul>
-            </p>
             <div class="article-metadata">
-              <a class="mr-2" >{{ medical.record.patient_name }}</a>
+              <a class="mr-2" href="{{ url_for('patientrecords.user_record', med_id=medical.med_id) }}" >More Info</a>
               <small class="text-muted">{{ medical.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
           
