@@ -103,3 +103,15 @@ def medicalrecord():
         if medical.symptoms:
             symptoms_dict = json.loads(medical.symptoms)
     return render_template('medrecords.html', title='My Medical Records', medicals=medicals, symptoms=symptoms_dict, user=user)
+
+
+@patientrecords.route("/allrecords")
+@login_required
+def allmedicalrecord():
+    page = request.args.get('page', 1, type=int)
+    medicals = Medical.query.order_by(Medical.date_posted.desc()).paginate(page=page, per_page=12)
+    symptoms_dict = {}
+    for medical in medicals:
+        if medical.symptoms:
+            symptoms_dict = json.loads(medical.symptoms)
+    return render_template('all_medical_record.html', medicals=medicals, symptoms=symptoms_dict)

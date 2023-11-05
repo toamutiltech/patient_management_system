@@ -31,17 +31,17 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               {% if current_user.is_authenticated %}
-              <a class="nav-item nav-link" href="{{ url_for('healthworker.home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.view_apointment') }}">Apointments</a>           
-               <a class="nav-item nav-link" href="{{ url_for('patientrecords.medicalrecord') }}">Medical Record</a>
+              <a class="nav-item nav-link" href="{{ url_for('main.worker') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('main.myapointment') }}">Apointments</a>           
+               <a class="nav-item nav-link" href="{{ url_for('patientrecords.allmedicalrecord') }}">Medical Record</a>
               {% endif %}
               
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('healthworker.workerrecord') }}">My Info</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
+                <a class="nav-item nav-link" href="{{ url_for('healthworkers.workerrecord') }}">My Info</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.workeraccount') }}">Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>

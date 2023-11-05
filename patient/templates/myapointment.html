@@ -5,10 +5,6 @@
 {% block content %}
 <div style=" clear: both;"></div>
 <div class="col-md-12 topbar text-muted" style="color: black;">
-  <div class="col-5" style="float: left; margin: 1%;">
-<a href="{{ url_for('main.myapointment') }}" class="btn btn-primary me-md-2">My Apointment</a>
-</div>
-
 <div style=" clear: both;"></div>
 <div class="row text-muted">
     {% for apointment in apointments.items %}
@@ -33,9 +29,9 @@
     {% for page_num in apointments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if apointments.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.worker', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-info mb-4" href="{{ url_for('main.myapointment', page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.worker', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.myapointment', page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...

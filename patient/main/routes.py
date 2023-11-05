@@ -31,3 +31,17 @@ def about():
 def contact():
 	#Route to redirect to Contact page when contact is click or enter into the browser address
     return render_template('contact.html', title='Contact')
+
+@main.route("/worker")
+def worker():
+	#Route to redirect to Apointment page where Apointment booked will apear
+	page = request.args.get('page', 1, type=int)
+	apointments = Apointment.query.order_by(Apointment.date_posted.desc()).paginate(page=page, per_page=5)
+	return render_template('worker_home.html', apointments=apointments)
+
+@main.route("/myapointment")
+def myapointment():
+	#Route to redirect to Apointment page where Apointment booked will apear
+	page = request.args.get('page', 1, type=int)
+	apointments = Apointment.query.order_by(Apointment.date_posted.desc()).paginate(page=page, per_page=5)
+	return render_template('myapointment.html', apointments=apointments)

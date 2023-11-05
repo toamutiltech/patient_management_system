@@ -56,4 +56,4 @@ def workerrecord():
             for record in healthworkers:
                 form.worker_name.data = record.worker_name
                 form.address.data = record.address
-        return render_template('worker_record.html', title='My Record', healthworkers=healthworkers, user=user, form=form)
+        return render_template('healthworker.html', title='My Record', healthworkers=healthworkers, user=user, form=form)
