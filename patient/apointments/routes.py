@@ -23,19 +23,20 @@ def new_apointment():
     return render_template('create_apointment.html', title='New Apointment',
                            form=form, legend='New Apointment', doctors=doctors)
 
-#Route to view space apointment by the ID
+#Route to view apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>")
 def apointment(apointment_id):
     apointment = Apointment.query.get_or_404(apointment_id)
     return render_template('apointment.html', title=apointment.title, apointment=apointment)
 
+#Route to view apointment by the ID for Health Workers
 @apointments.route("/apointmentstatus/<int:apointment_id>")
 def status(apointment_id):
     apointment = Apointment.query.get_or_404(apointment_id)
     medicals = Medical.query.first_or_404()
     return render_template('apointment_status.html', title=apointment.title, apointment=apointment, medicals=medicals)
 
-#Route to edit space apointment by the ID
+#Route to edit apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_apointment(apointment_id):
@@ -55,6 +56,7 @@ def update_apointment(apointment_id):
     return render_template('create_apointment.html', title='Update Apointment',
                            form=form, legend='Update Apointment')
 
+#Route to view apointment by the ID for Health Workers and answer the apointment
 @apointments.route("/apointment/update", methods=['GET', 'POST'])
 @login_required
 def ans_apointment():    
@@ -74,7 +76,7 @@ def ans_apointment():
         return redirect(url_for('apointments.status', apointment_id=apointment_id)) 
     return render_template('apointment_status.html', title=apointment.title, apointment=apointment, medicals=medicals)
 
-#Route to delete space apointment by the ID
+#Route to delete apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>/delete", methods=['POST'])
 @login_required
 def delete_apointment(apointment_id):
@@ -86,7 +88,7 @@ def delete_apointment(apointment_id):
     flash('Your apointment has been deleted!', 'success')
     return redirect(url_for('main.home'))
 
-#Route to delete space apointment by the ID
+#Route to search doctor to book apointment
 @apointments.route('/apointment/search', methods=['GET'])
 def search():
     selected_doctor = request.args.get('doctor')

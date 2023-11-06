@@ -6,6 +6,7 @@ from patient.models import User, Record, Medical
 from patient.patientrecords.forms import (PatientRecordForm, UpdatePatientRecordForm, MedicalRecordForm)
 import json
 
+#This route contain all route to the Patient, Medical and Health Records
 
 patientrecords = Blueprint('patientrecords', __name__)
 

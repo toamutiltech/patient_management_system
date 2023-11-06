@@ -8,9 +8,7 @@ import pandas as pd
 
 main = Blueprint('main', __name__)
 """
-This is the first page loaded by the browser,
-It load with the space post available in the database 
-it and redirect to home page when Home is click
+This route contain all first page loaded by the browser
 """
 @main.route("/")
 @main.route("/home")

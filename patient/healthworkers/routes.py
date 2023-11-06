@@ -8,7 +8,7 @@ import json
  
 healthworkers = Blueprint('healthworkers', __name__)
 
-
+#Health Worker Home page
 @healthworkers.route("/home")
 @login_required
 def workerhome():
@@ -17,7 +17,7 @@ def workerhome():
     apointments = Apointment.query.order_by(Apointment.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('worker_home.html', apointments=apointments)
 
-# Route to submit the Patient Record form and redirect back to Patient Record
+# Route to submit the Health Worker Record form and redirect back to Worker Record
 @healthworkers.route("/update_workerrecord", methods=['GET', 'POST'])
 @login_required
 def update_workerrecord():
@@ -31,6 +31,7 @@ def update_workerrecord():
     return render_template('worker_record.html', title='Update Worker Record',
                            form=form, legend='Update Worker Record')
 
+# Route to Health Worker Record
 @healthworkers.route("/workerrecord", methods=['GET', 'POST'])
 @login_required
 def workerrecord():

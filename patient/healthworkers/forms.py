@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_login import current_user
 from patient.models import User
  
-
+#Health Worker Record Form 
 class HealthRecordForm(FlaskForm):
     worker_name = StringField('Full Name',
                            validators=[DataRequired(), Length(min=2, max=100)])
@@ -16,7 +16,7 @@ class HealthRecordForm(FlaskForm):
                            validators=[DataRequired()])
     submit = SubmitField('Update Your Record')
 
-
+#Health Worker Updating Record Form 
 class UpdateHealthRecordForm(FlaskForm):
     worker_name = StringField('Full Name',
                            validators=[DataRequired(), Length(min=2, max=100)])

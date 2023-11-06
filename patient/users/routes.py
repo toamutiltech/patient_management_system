@@ -6,6 +6,8 @@ from patient.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm)
 from patient.users.utils import save_picture, send_reset_email
 
+#This route contain all Users Route
+
 users = Blueprint('users', __name__)
 
 
