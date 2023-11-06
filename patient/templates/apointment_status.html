@@ -10,10 +10,37 @@
             <p class="article-content">Date: {{ apointment.date }}</p>
             <p class="article-content">Time: {{ apointment.time }}</p>
             <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
-              <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
+            <p class="article-content">Status: {{ apointment.status }}</p>
+            <h3>Patient Infomation</h3>
+            <p class="article-content">Patient Name: {{ medicals.record.patient_name }}</p>
+            <p class="article-content">Gender: {{ medicals.record.gender }}</p>
+            <p class="article-content">Date of Birth: {{ medicals.record.dob }}</p>
+            <p class="article-content">Phone Number: {{ medicals.med.phone }}</p>
+            <p class="article-content">Email Address: {{ medicals.med.email }}</p>
+            <p class="article-content">Address: {{ medicals.record.address }}</p>
+            {% if apointment.status is not defined or apointment.status is none %}
+            <h3>Answer Appointment</h3>
+           <form method="POST" action="{{ url_for('apointments.ans_apointment') }}" >
+        <fieldset class="form-group">
+            <div class="form-group col-5">
+    <label for="date" class="form-control-label">Date of Appointment</label>
+    <input type="date" name="date" id="date" class="form-control form-control-lg" >
+  </div>
+              <div class="form-group col-5">
+    <label for="reason" class="form-control-label">Time of Appointment</label>
+    <input type="text" name="time" id="time" class="form-control form-control-lg" >
+  </div> 
+  <input type="hidden" name="apointment_id" id="apointment_id" value="{{ apointment.id }}">    
+        </fieldset>  
+    <div class="form-group">
+      <button type="submit" class="btn btn-outline-info" name="accept">Accept Appointment</button>&nbsp; &nbsp;&nbsp;&nbsp;
+       <button type="submit"  class="btn btn-outline-info" name="reject">Reject Appointment
+    </button>
+    </div>
+</form>
+{% else %}
+      <h3>This Appointment is set already</h3>
+      {% endif %}
   </article>
   <!-- Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

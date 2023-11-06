@@ -16,6 +16,7 @@
             <p class="article-content">Date: {{ apointment.date }}</p>
             <p class="article-content">Time: {{ apointment.time }}</p>
             <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
+            <p class="article-content">Status: {{ apointment.status }}</p>
             <p class="article-content">Date Created: {{ apointment.date_posted.strftime('%Y-%m-%d') }}</p>
             <div class="article-metadata">
               <a href="{{ url_for('apointments.status', apointment_id=apointment.id) }}" class="btn btn-primary me-md-2">View Apointment</a>

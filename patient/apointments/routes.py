@@ -32,7 +32,8 @@ def apointment(apointment_id):
 @apointments.route("/apointmentstatus/<int:apointment_id>")
 def status(apointment_id):
     apointment = Apointment.query.get_or_404(apointment_id)
-    return render_template('apointment_status.html', title=apointment.title, apointment=apointment)
+    medicals = Medical.query.first_or_404()
+    return render_template('apointment_status.html', title=apointment.title, apointment=apointment, medicals=medicals)
 
 #Route to edit space apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>/update", methods=['GET', 'POST'])
@@ -53,6 +54,25 @@ def update_apointment(apointment_id):
         form.content.data = apointment.content
     return render_template('create_apointment.html', title='Update Apointment',
                            form=form, legend='Update Apointment')
+
+@apointments.route("/apointment/update", methods=['GET', 'POST'])
+@login_required
+def ans_apointment():    
+    if request.method == 'POST':
+        apointment_id = request.form.get('apointment_id')
+        apointment = Apointment.query.get_or_404(apointment_id)
+        medicals = Medical.query.first_or_404()
+        if 'accept' in request.form:
+            apointment.date = request.form.get('date')
+            apointment.time = request.form.get('time')
+            apointment.status = 'accept'
+        elif 'reject' in request.form:
+            apointment.status = 'reject'
+
+        db.session.commit()
+        flash('The appointment has been updated!', 'success')
+        return redirect(url_for('apointments.status', apointment_id=apointment_id)) 
+    return render_template('apointment_status.html', title=apointment.title, apointment=apointment, medicals=medicals)
 
 #Route to delete space apointment by the ID
 @apointments.route("/apointment/<int:apointment_id>/delete", methods=['POST'])

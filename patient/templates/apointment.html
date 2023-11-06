@@ -10,6 +10,7 @@
             <p class="article-content">Date: {{ apointment.date }}</p>
             <p class="article-content">Time: {{ apointment.time }}</p>
             <p class="article-content">Reason for Visit: {{ apointment.reason }}</p>
+            <p class="article-content">Status: {{ apointment.status }}</p>
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('users.user_apointments', username=apointment.author.username) }}">{{ apointment.author.username }}</a>
               <small class="text-muted">{{ apointment.date_posted.strftime('%Y-%m-%d') }}</small>

@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # Import your models here
-from patient.models import User, Apointment  # Replace 'your_app' with your actual app package name
+from patient.models import User, Apointment, Record, Medical, Health  # Replace 'your_app' with your actual app package name
 
 if __name__ == '__main__':
     # Create the database tables
